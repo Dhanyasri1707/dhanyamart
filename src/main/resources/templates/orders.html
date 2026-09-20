@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>DhanyaMart - Cart</title>
+    <title>DhanyaMart - Orders</title>
 
     <style>
         * {
@@ -29,7 +30,7 @@
             padding: 30px;
         }
 
-        .cart-item {
+        .order-card {
             background: white;
             padding: 20px;
             margin-bottom: 15px;
@@ -37,34 +38,18 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .cart-item h2 {
+        .order-card h2 {
             color: #2e7d32;
             margin-bottom: 10px;
         }
 
-        .price,
-        .quantity,
-        .total {
+        .order-info {
             margin-top: 8px;
         }
 
-        .total {
+        .status {
+            margin-top: 12px;
             font-weight: bold;
-        }
-
-        .order-button {
-            margin-top: 15px;
-            padding: 10px 18px;
-            background: #2e7d32;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        .order-button:hover {
-            background: #1b5e20;
         }
 
         .empty {
@@ -89,61 +74,43 @@
 
 <header>
     <h1>DhanyaMart</h1>
-    <p>My Cart 🛒</p>
+    <p>My Orders 📦</p>
 </header>
 
 <div class="container">
 
-    <div th:if="${#lists.isEmpty(cartItems)}" class="empty">
-        <h2>Your cart is empty</h2>
+    <div th:if="${#lists.isEmpty(orders)}" class="empty">
+        <h2>No orders yet</h2>
+        <p>Your placed orders will appear here.</p>
     </div>
 
-    <div th:each="item : ${cartItems}" class="cart-item">
+    <div th:each="order : ${orders}" class="order-card">
 
         <div th:each="product : ${products}">
 
-            <div th:if="${product.id == item.productId}">
+            <div th:if="${product.id == order.productId}">
 
                 <h2 th:text="${product.name}">
                     Product Name
                 </h2>
 
-                <p class="price">
+                <p class="order-info">
                     Price: ₹<span th:text="${product.price}">0</span>
                 </p>
 
-                <p class="quantity">
+                <p class="order-info">
                     Quantity:
-                    <span th:text="${item.quantity}">1</span>
+                    <span th:text="${order.quantity}">1</span>
                 </p>
 
-                <p class="total">
-                    Total: ₹<span th:text="${product.price * item.quantity}">0</span>
+                <p class="order-info">
+                    Total: ₹<span th:text="${order.total}">0</span>
                 </p>
 
-                <form action="/order/place" method="post">
-
-                    <input type="hidden"
-                           name="username"
-                           th:value="${param.username}">
-
-                    <input type="hidden"
-                           name="productId"
-                           th:value="${product.id}">
-
-                    <input type="hidden"
-                           name="quantity"
-                           th:value="${item.quantity}">
-
-                    <input type="hidden"
-                           name="total"
-                           th:value="${product.price * item.quantity}">
-
-                    <button type="submit" class="order-button">
-                        Place Order 📦
-                    </button>
-
-                </form>
+                <p class="status">
+                    Status:
+                    <span th:text="${order.status}">PLACED</span>
+                </p>
 
             </div>
 
