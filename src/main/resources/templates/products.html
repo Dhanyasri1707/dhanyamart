@@ -61,6 +61,22 @@
             color: #666;
         }
 
+        .cart-button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .cart-button:hover {
+            background: #1b5e20;
+        }
+
         .empty {
             text-align: center;
             color: #666;
@@ -91,6 +107,22 @@
             <p class="seller">
                 Seller: <span th:text="${product.seller}">Seller</span>
             </p>
+
+            <form action="/cart/add" method="post">
+
+                <input type="hidden"
+                       name="productId"
+                       th:value="${product.id}">
+
+                <input type="hidden"
+                       name="username"
+                       value="YOUR_USERNAME">
+
+                <button type="submit" class="cart-button">
+                    Add to Cart 🛒
+                </button>
+
+            </form>
 
         </div>
 
