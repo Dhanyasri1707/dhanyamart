@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DhanyaMart - Products</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card h2 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .seller {
+            color: #666;
+        }
+
+        .empty {
+            text-align: center;
+            color: #666;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>DhanyaMart</h1>
+    <p>Our Products</p>
+</header>
+
+<div class="container">
+
+    <div class="products">
+
+        <div class="product-card" th:each="product : ${products}">
+
+            <h2 th:text="${product.name}">Product Name</h2>
+
+            <p class="price">
+                ₹<span th:text="${product.price}">0</span>
+            </p>
+
+            <p class="seller">
+                Seller: <span th:text="${product.seller}">Seller</span>
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="empty" th:if="${#lists.isEmpty(products)}">
+        <p>No products available yet.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
