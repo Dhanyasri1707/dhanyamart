@@ -61,11 +61,11 @@
             color: #666;
         }
 
-        .cart-button {
+        .cart-button,
+        .review-button {
             margin-top: 15px;
             width: 100%;
             padding: 10px;
-            background: #2e7d32;
             color: white;
             border: none;
             border-radius: 8px;
@@ -73,8 +73,20 @@
             font-size: 15px;
         }
 
+        .cart-button {
+            background: #2e7d32;
+        }
+
         .cart-button:hover {
             background: #1b5e20;
+        }
+
+        .review-button {
+            background: #558b2f;
+        }
+
+        .review-button:hover {
+            background: #33691e;
         }
 
         .empty {
@@ -123,6 +135,12 @@
                 </button>
 
             </form>
+
+            <a th:href="@{/reviews(productId=${product.id})}">
+                <button type="button" class="review-button">
+                    ⭐ Reviews
+                </button>
+            </a>
 
         </div>
 

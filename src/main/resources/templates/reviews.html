@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DhanyaMart - Reviews</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .review-form,
+        .review-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        .rating {
+            color: #f5a623;
+            font-weight: bold;
+        }
+
+        .username {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comment {
+            margin-top: 10px;
+            color: #555;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 18px;
+            background: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>DhanyaMart</h1>
+    <p>Product Reviews ⭐</p>
+</header>
+
+<div class="container">
+
+    <div class="review-form">
+
+        <h2 th:text="${product != null ? product.name : 'Product'}">
+            Product
+        </h2>
+
+        <form action="/review/add" method="post">
+
+            <input type="hidden"
+                   name="productId"
+                   th:value="${product.id}">
+
+            <label>Username</label>
+            <input type="text"
+                   name="username"
+                   placeholder="Enter username"
+                   required>
+
+            <label>Rating</label>
+            <select name="rating" required>
+                <option value="">Select rating</option>
+                <option value="5">⭐⭐⭐⭐⭐ - 5</option>
+                <option value="4">⭐⭐⭐⭐ - 4</option>
+                <option value="3">⭐⭐⭐ - 3</option>
+                <option value="2">⭐⭐ - 2</option>
+                <option value="1">⭐ - 1</option>
+            </select>
+
+            <label>Comment</label>
+            <textarea name="comment"
+                      placeholder="Write your review"
+                      required></textarea>
+
+            <button type="submit">
+                Submit Review
+            </button>
+
+        </form>
+
+    </div>
+
+    <h2>Customer Reviews</h2>
+
+    <div th:if="${#lists.isEmpty(reviews)}" class="empty">
+        <p>No reviews yet.</p>
+    </div>
+
+    <div th:each="review : ${reviews}" class="review-card">
+
+        <p class="username"
+           th:text="${review.username}">
+            Username
+        </p>
+
+        <p class="rating">
+            Rating:
+            <span th:text="${review.rating}">
+                5
+            </span>/5 ⭐
+        </p>
+
+        <p class="comment"
+           th:text="${review.comment}">
+            Review comment
+        </p>
+
+    </div>
+
+    <a href="/products" class="back">
+        ← Back to Products
+    </a>
+
+</div>
+
+</body>
+</html>
