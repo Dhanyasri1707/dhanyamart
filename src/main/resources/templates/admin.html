@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DhanyaMart - Admin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .back {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>DhanyaMart</h1>
+    <p>Admin Dashboard</p>
+</header>
+
+<div class="container">
+
+    <!-- Users -->
+
+    <div class="section">
+
+        <h2>Users</h2>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Role</th>
+            </tr>
+
+            <tr th:each="user : ${users}">
+
+                <td th:text="${user.id}">1</td>
+
+                <td th:text="${user.username}">
+                    username
+                </td>
+
+                <td th:text="${user.role}">
+                    USER
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <!-- Products -->
+
+    <div class="section">
+
+        <h2>Products</h2>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Seller</th>
+            </tr>
+
+            <tr th:each="product : ${products}">
+
+                <td th:text="${product.id}">
+                    1
+                </td>
+
+                <td th:text="${product.name}">
+                    Rice
+                </td>
+
+                <td>
+                    ₹<span th:text="${product.price}">
+                        60
+                    </span>
+                </td>
+
+                <td th:text="${product.seller}">
+                    Dhanya Store
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <!-- Orders -->
+
+    <div class="section">
+
+        <h2>Orders</h2>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+
+            <tr th:each="order : ${orders}">
+
+                <td th:text="${order.id}">
+                    1
+                </td>
+
+                <td th:text="${order.username}">
+                    username
+                </td>
+
+                <td th:text="${order.productId}">
+                    1
+                </td>
+
+                <td th:text="${order.quantity}">
+                    1
+                </td>
+
+                <td>
+                    ₹<span th:text="${order.total}">
+                        60
+                    </span>
+                </td>
+
+                <td th:text="${order.status}">
+                    PLACED
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <a href="/products" class="back">
+        ← Back to Products
+    </a>
+
+</div>
+
+</body>
+
+</html>
