@@ -52,4 +52,19 @@ public class OrderController {
 
         return "orders";
     }
+
+    @PostMapping("/admin/order/status")
+    public String updateOrderStatus(
+            @RequestParam Long orderId,
+            @RequestParam String status) {
+
+        Order order = orderRepository.findById(orderId).orElse(null);
+
+        if (order != null) {
+            order.setStatus(status);
+            orderRepository.save(order);
+        }
+
+        return "redirect:/admin";
+    }
 }

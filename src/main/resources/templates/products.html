@@ -33,6 +33,37 @@
             padding: 30px;
         }
 
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .search-button {
+            padding: 12px 20px;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-button:hover {
+            background: #1b5e20;
+        }
+
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -106,6 +137,22 @@
 
 <div class="container">
 
+    <!-- Product Search -->
+    <form action="/products" method="get" class="search-box">
+
+        <input
+                type="text"
+                name="search"
+                th:value="${search}"
+                placeholder="Search products..."
+        >
+
+        <button type="submit" class="search-button">
+            🔍 Search
+        </button>
+
+    </form>
+
     <div class="products">
 
         <div class="product-card" th:each="product : ${products}">
@@ -153,4 +200,4 @@
 </div>
 
 </body>
-</html>
+</html>  

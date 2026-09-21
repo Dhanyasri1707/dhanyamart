@@ -24,9 +24,17 @@ public class LoginController {
             @RequestParam String username,
             @RequestParam String password) {
 
-        User user = userRepository.findByUsernameAndPassword(username, password);
+        User user = userRepository.findByUsernameAndPassword(
+                username,
+                password
+        );
 
         if (user != null) {
+
+            if ("ADMIN".equals(user.getRole())) {
+                return "redirect:/admin";
+            }
+
             return "redirect:/products";
         }
 
