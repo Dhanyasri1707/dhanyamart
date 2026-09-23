@@ -18,7 +18,7 @@ public class AdminController {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
-    }
+    } 
 
     @GetMapping("/admin")
     public String adminPage(Model model) {
