@@ -1,5 +1,6 @@
 package com.dhanyamart.dhanyamart;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +15,26 @@ public class OrderController {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
-    public OrderController(OrderRepository orderRepository,
-                           ProductRepository productRepository) {
+    public OrderController(
+            OrderRepository orderRepository,
+            ProductRepository productRepository) {
+
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
     }
 
     @PostMapping("/order/place")
     public String placeOrder(
-            @RequestParam String username,
+            @RequestParam(required = false) String username,
             @RequestParam Long productId,
             @RequestParam int quantity,
-            @RequestParam double total) {
+            @RequestParam double total,
+            HttpSession session) {
+
+        // Get username from login session
+        if (username == null || username.trim().isEmpty()) {
+            username = (String) session.getAttribute("username");
+        }
 
         Order order = new Order(
                 username,
@@ -42,13 +51,20 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String viewOrders(
-            @RequestParam String username,
+            @RequestParam(required = false) String username,
+            HttpSession session,
             Model model) {
+
+        // Get username from session if it is not in the URL
+        if (username == null || username.trim().isEmpty()) {
+            username = (String) session.getAttribute("username");
+        }
 
         List<Order> orders = orderRepository.findByUsername(username);
 
         model.addAttribute("orders", orders);
         model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("username", username);
 
         return "orders";
     }

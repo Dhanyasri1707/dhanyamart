@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DhanyaMart - Admin Reviews</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2e7d32;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #2e7d32;
+            color: white;
+            padding: 15px;
+        }
+
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f1f8f2;
+        }
+
+        .empty {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+        }
+
+        .back {
+            display: block;
+            width: 180px;
+            margin: 25px auto;
+            padding: 12px;
+            text-align: center;
+            background-color: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .back:hover {
+            background-color: #1b5e20;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>DhanyaMart</h1>
+    <p>Admin - Customer Reviews</p>
+</header>
+
+<div class="container">
+
+    <h2>CUSTOMER REVIEWS</h2>
+
+    <table th:if="${reviews != null and !#lists.isEmpty(reviews)}">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Product ID</th>
+                <th>Rating</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr th:each="review : ${reviews}">
+
+                <td th:text="${review.id}">
+                    1
+                </td>
+
+                <td th:text="${review.username}">
+                    Customer
+                </td>
+
+                <td th:text="${review.productId}">
+                    1
+                </td>
+
+                <td th:text="${review.rating}">
+                    5
+                </td>
+
+                <td th:text="${review.comment}">
+                    Good product
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div
+        class="empty"
+        th:if="${reviews == null or #lists.isEmpty(reviews)}"
+    >
+        No reviews available.
+    </div>
+
+    <a href="/admin" class="back">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>
