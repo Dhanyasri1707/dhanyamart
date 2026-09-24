@@ -1,5 +1,6 @@
 package com.dhanyamart.dhanyamart;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,18 +20,28 @@ public class ProductController {
     @GetMapping("/products")
     public String products(
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) String username,
+            HttpSession session,
             Model model) {
+
+        // Get username from URL
+        // If missing, get it from the login session
+        if (username == null || username.trim().isEmpty()) {
+            username = (String) session.getAttribute("username");
+        }
 
         List<Product> products;
 
         if (search != null && !search.trim().isEmpty()) {
-            products = productRepository.findByNameContainingIgnoreCase(search);
+            products = productRepository
+                    .findByNameContainingIgnoreCase(search);
         } else {
             products = productRepository.findAll();
         }
 
         model.addAttribute("products", products);
         model.addAttribute("search", search);
+        model.addAttribute("username", username);
 
         return "products";
     }

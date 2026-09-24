@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,88 +16,56 @@
         }
 
         body {
-            background: #f5f5f5;
+            background-color: #f5f7f5;
+            color: #333;
         }
 
         header {
-            background: #2e7d32;
+            background-color: #2e7d32;
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
         }
 
         header h1 {
+            font-size: 32px;
             margin-bottom: 8px;
         }
 
+        header p {
+            font-size: 17px;
+        }
+
         .container {
-            padding: 30px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 18px;
         }
 
         .search-box {
             display: flex;
+            justify-content: center;
             gap: 10px;
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-bottom: 35px;
         }
 
         .search-box input {
-            flex: 1;
-            padding: 12px;
+            width: 500px;
+            padding: 13px;
             border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 16px;
         }
 
-        .search-button {
-            padding: 12px 20px;
-            background: #2e7d32;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .search-button:hover {
-            background: #1b5e20;
-        }
-
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-card h2 {
-            color: #2e7d32;
-            margin-bottom: 10px;
-        }
-
-        .price {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .seller {
-            color: #666;
-        }
-
-        .cart-button,
-        .review-button {
-            margin-top: 15px;
-            width: 100%;
-            padding: 10px;
+        .search-box button {
+            padding: 13px 22px;
+            background-color: #2e7d32;
             color: white;
             border: none;
             border-radius: 8px;
@@ -104,26 +73,98 @@
             font-size: 15px;
         }
 
+        .search-box button:hover {
+            background-color: #1b5e20;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .product-card {
+            background-color: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+            text-align: center;
+        }
+
+        .product-card h2 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            font-size: 21px;
+        }
+
+        .price {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .seller {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
         .cart-button {
-            background: #2e7d32;
+            width: 100%;
+            padding: 10px;
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
         }
 
         .cart-button:hover {
-            background: #1b5e20;
+            background-color: #1b5e20;
         }
 
         .review-button {
-            background: #558b2f;
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            background-color: white;
+            color: #2e7d32;
+            border: 1px solid #2e7d32;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
         }
 
         .review-button:hover {
-            background: #33691e;
+            background-color: #e8f5e9;
         }
 
         .empty {
             text-align: center;
+            margin-top: 40px;
+            font-size: 18px;
             color: #666;
-            margin-top: 50px;
+        }
+
+        @media (max-width: 900px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -132,72 +173,116 @@
 
 <header>
     <h1>DhanyaMart</h1>
-    <p>Our Products</p>
+    <p>Online Shopping System</p>
 </header>
 
 <div class="container">
 
-    <!-- Product Search -->
+    <div class="welcome">
+        Welcome,
+        <strong th:text="${username}">Customer</strong>
+    </div>
+
+    <!-- Search -->
     <form action="/products" method="get" class="search-box">
 
         <input
-                type="text"
-                name="search"
-                th:value="${search}"
-                placeholder="Search products..."
+            type="text"
+            name="search"
+            placeholder="Search products..."
+            th:value="${search}"
         >
 
-        <button type="submit" class="search-button">
-            🔍 Search
+        <input
+            type="hidden"
+            name="username"
+            th:value="${username}"
+        >
+
+        <button type="submit">
+            Search
         </button>
 
     </form>
 
+    <!-- Products -->
     <div class="products">
 
-        <div class="product-card" th:each="product : ${products}">
+        <div
+            class="product-card"
+            th:each="product : ${products}"
+        >
 
-            <h2 th:text="${product.name}">Product Name</h2>
+            <h2 th:text="${product.name}">
+                Product Name
+            </h2>
 
-            <p class="price">
+            <div class="price">
                 ₹<span th:text="${product.price}">0</span>
-            </p>
+            </div>
 
-            <p class="seller">
-                Seller: <span th:text="${product.seller}">Seller</span>
-            </p>
+            <div class="seller">
+                Seller:
+                <span th:text="${product.seller}">
+                    DhanyaMart
+                </span>
+            </div>
 
+            <!-- Add to Cart -->
             <form action="/cart/add" method="post">
 
-                <input type="hidden"
-                       name="productId"
-                       th:value="${product.id}">
+                <input
+                    type="hidden"
+                    name="productId"
+                    th:value="${product.id}"
+                >
 
-                <input type="hidden"
-                       name="username"
-                       value="YOUR_USERNAME">
+                <input
+                    type="hidden"
+                    name="username"
+                    th:value="${username}"
+                >
 
                 <button type="submit" class="cart-button">
-                    Add to Cart 🛒
+                    Add to Cart
                 </button>
 
             </form>
 
-            <a th:href="@{/reviews(productId=${product.id})}">
-                <button type="button" class="review-button">
-                    ⭐ Reviews
+            <!-- Review -->
+            <form action="/review" method="get">
+
+                <input
+                    type="hidden"
+                    name="productId"
+                    th:value="${product.id}"
+                >
+
+                <input
+                    type="hidden"
+                    name="username"
+                    th:value="${username}"
+                >
+
+                <button type="submit" class="review-button">
+                    Review
                 </button>
-            </a>
+
+            </form>
 
         </div>
 
     </div>
 
-    <div class="empty" th:if="${#lists.isEmpty(products)}">
-        <p>No products available yet.</p>
+    <!-- No products -->
+    <div
+        class="empty"
+        th:if="${products == null or #lists.isEmpty(products)}"
+    >
+        No products found.
     </div>
 
 </div>
 
 </body>
-</html>  
+</html>

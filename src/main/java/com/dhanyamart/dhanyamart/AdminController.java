@@ -18,7 +18,7 @@ public class AdminController {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
-    } 
+    }
 
     @GetMapping("/admin")
     public String adminPage(Model model) {
@@ -28,5 +28,13 @@ public class AdminController {
         model.addAttribute("orders", orderRepository.findAll());
 
         return "admin";
+    }
+
+    @GetMapping("/admin/orders")
+    public String adminOrders(Model model) {
+
+        model.addAttribute("orders", orderRepository.findAll());
+
+        return "admin-orders";
     }
 }

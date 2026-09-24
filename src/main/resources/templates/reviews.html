@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -9,58 +9,62 @@
 
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
 
         body {
-            background: #f5f5f5;
+            margin: 0;
+            background: #f5f7f5;
+            color: #333;
         }
 
         header {
             background: #2e7d32;
             color: white;
-            padding: 20px;
             text-align: center;
+            padding: 25px;
         }
 
         .container {
-            padding: 30px;
-            max-width: 700px;
-            margin: auto;
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
         }
 
+        .product-box,
         .review-form,
         .review-card {
             background: white;
-            padding: 20px;
+            padding: 22px;
             margin-bottom: 20px;
             border-radius: 12px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-        h2 {
+        .product-box h2 {
             color: #2e7d32;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            margin-top: 8px;
         }
 
         label {
             display: block;
             margin-top: 12px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             font-weight: bold;
         }
 
-        input,
-        textarea,
-        select {
+        select,
+        textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 7px;
         }
 
         textarea {
@@ -70,48 +74,43 @@
 
         button {
             margin-top: 15px;
-            padding: 10px 18px;
+            padding: 11px 20px;
             background: #2e7d32;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 7px;
             cursor: pointer;
-            font-size: 15px;
         }
 
         button:hover {
             background: #1b5e20;
         }
 
-        .rating {
-            color: #f5a623;
-            font-weight: bold;
-        }
-
         .username {
             font-weight: bold;
-            color: #333;
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+
+        .rating {
+            color: #e6a700;
+            font-size: 18px;
+            margin-bottom: 8px;
         }
 
         .comment {
-            margin-top: 10px;
-            color: #555;
+            color: #444;
         }
 
         .back {
             display: inline-block;
-            margin-top: 10px;
-            padding: 10px 18px;
-            background: #2e7d32;
-            color: white;
+            margin-bottom: 20px;
+            color: #2e7d32;
             text-decoration: none;
-            border-radius: 8px;
         }
 
-        .empty {
-            text-align: center;
+        .no-reviews {
             color: #666;
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -120,43 +119,94 @@
 
 <header>
     <h1>DhanyaMart</h1>
-    <p>Product Reviews ⭐</p>
+    <p>Product Reviews</p>
 </header>
 
 <div class="container">
 
-    <div class="review-form">
+    <a
+        class="back"
+        th:href="@{/products(username=${username})}">
+        ← Back to Products
+    </a>
 
-        <h2 th:text="${product != null ? product.name : 'Product'}">
-            Product
+    <!-- PRODUCT INFORMATION -->
+
+    <div class="product-box">
+
+        <h2>
+            Product:
+            <span th:text="${product != null ? product.name : 'Product'}">
+                Wheat
+            </span>
         </h2>
 
-        <form action="/review/add" method="post">
+        <div
+            class="product-price"
+            th:if="${product != null}"
+        >
+            Price:
+            ₹<span th:text="${product.price}">0</span>
+        </div>
 
-            <input type="hidden"
-                   name="productId"
-                   th:value="${product.id}">
+        <div
+            th:if="${product != null}"
+        >
+            Seller:
+            <span th:text="${product.seller}">
+                DhanyaMart
+            </span>
+        </div>
 
-            <label>Username</label>
-            <input type="text"
-                   name="username"
-                   placeholder="Enter username"
-                   required>
+    </div>
 
-            <label>Rating</label>
-            <select name="rating" required>
-                <option value="">Select rating</option>
-                <option value="5">⭐⭐⭐⭐⭐ - 5</option>
-                <option value="4">⭐⭐⭐⭐ - 4</option>
-                <option value="3">⭐⭐⭐ - 3</option>
-                <option value="2">⭐⭐ - 2</option>
-                <option value="1">⭐ - 1</option>
+
+    <!-- WRITE REVIEW -->
+
+    <div class="review-form">
+
+        <h2>Write a Review</h2>
+
+        <form action="/review" method="post">
+
+            <input
+                type="hidden"
+                name="productId"
+                th:value="${productId}"
+            >
+
+            <input
+                type="hidden"
+                name="username"
+                th:value="${username}"
+            >
+
+            <label for="rating">
+                Rating
+            </label>
+
+            <select
+                id="rating"
+                name="rating"
+                required
+            >
+                <option value="5">★★★★★ - Excellent</option>
+                <option value="4">★★★★ - Very Good</option>
+                <option value="3">★★★ - Good</option>
+                <option value="2">★★ - Average</option>
+                <option value="1">★ - Poor</option>
             </select>
 
-            <label>Comment</label>
-            <textarea name="comment"
-                      placeholder="Write your review"
-                      required></textarea>
+            <label for="comment">
+                Comment
+            </label>
+
+            <textarea
+                id="comment"
+                name="comment"
+                placeholder="Write your review..."
+                required
+            ></textarea>
 
             <button type="submit">
                 Submit Review
@@ -166,36 +216,48 @@
 
     </div>
 
+
+    <!-- CUSTOMER REVIEWS -->
+
     <h2>Customer Reviews</h2>
 
-    <div th:if="${#lists.isEmpty(reviews)}" class="empty">
-        <p>No reviews yet.</p>
-    </div>
+    <br>
 
-    <div th:each="review : ${reviews}" class="review-card">
+    <div
+        class="review-card"
+        th:each="review : ${reviews}"
+    >
 
-        <p class="username"
-           th:text="${review.username}">
-            Username
-        </p>
+        <div class="username">
+            Customer:
+            <span th:text="${review.username}">
+                Customer
+            </span>
+        </div>
 
-        <p class="rating">
-            Rating:
+        <div class="rating">
             <span th:text="${review.rating}">
                 5
-            </span>/5 ⭐
-        </p>
+            </span>
+            / 5
+            ⭐
+        </div>
 
-        <p class="comment"
-           th:text="${review.comment}">
-            Review comment
-        </p>
+        <div
+            class="comment"
+            th:text="${review.comment}"
+        >
+            Great product!
+        </div>
 
     </div>
 
-    <a href="/products" class="back">
-        ← Back to Products
-    </a>
+    <div
+        class="no-reviews"
+        th:if="${reviews == null or #lists.isEmpty(reviews)}"
+    >
+        No reviews yet. Be the first to review this product!
+    </div>
 
 </div>
 

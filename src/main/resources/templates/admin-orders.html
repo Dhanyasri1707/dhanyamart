@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Orders - DhanyaMart</title>
+</head>
+
+<body>
+
+    <h1>View Orders</h1>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Product ID</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Status</th>
+        </tr>
+
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}">1</td>
+            <td th:text="${order.username}">username</td>
+            <td th:text="${order.productId}">1</td>
+            <td th:text="${order.quantity}">1</td>
+            <td th:text="${order.total}">60</td>
+            <td th:text="${order.status}">PLACED</td>
+        </tr>
+
+    </table>
+
+    <br>
+
+    <a href="/admin">
+        <button type="button">Back to Admin Dashboard</button>
+    </a>
+
+</body>
+
+</html>

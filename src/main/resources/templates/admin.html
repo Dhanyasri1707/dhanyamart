@@ -1,85 +1,29 @@
-<!-- Orders -->
+<!-- Admin Dashboard -->
 
 <div class="section">
 
-    <h2>Orders</h2>
+    <h2>ADMIN DASHBOARD</h2>
 
-    <table>
+    <div class="dashboard-buttons">
 
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Product ID</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Update</th>
-        </tr>
+        <a href="/admin/products">
+            <button type="button">
+                Manage Products
+            </button>
+        </a>
 
-        <tr th:each="order : ${orders}">
+        <a href="/admin/orders">
+            <button type="button">
+                View Orders
+            </button>
+        </a>
 
-            <td th:text="${order.id}">
-                1
-            </td>
+        <a href="/admin/reviews">
+            <button type="button">
+                View Reviews
+            </button>
+        </a>
 
-            <td th:text="${order.username}">
-                username
-            </td>
-
-            <td th:text="${order.productId}">
-                1
-            </td>
-
-            <td th:text="${order.quantity}">
-                1
-            </td>
-
-            <td>
-                ₹<span th:text="${order.total}">
-                    60
-                </span>
-            </td>
-
-            <td>
-                <form action="/admin/order/status" method="post">
-
-                    <input type="hidden"
-                           name="orderId"
-                           th:value="${order.id}">
-
-                    <select name="status">
-
-                        <option value="PLACED"
-                                th:selected="${order.status == 'PLACED'}">
-                            PLACED
-                        </option>
-
-                        <option value="CONFIRMED"
-                                th:selected="${order.status == 'CONFIRMED'}">
-                            CONFIRMED
-                        </option>
-
-                        <option value="SHIPPED"
-                                th:selected="${order.status == 'SHIPPED'}">
-                            SHIPPED
-                        </option>
-
-                        <option value="DELIVERED"
-                                th:selected="${order.status == 'DELIVERED'}">
-                            DELIVERED
-                        </option>
-
-                    </select>
-
-                    <button type="submit">
-                        Update
-                    </button>
-
-                </form>
-            </td>
-
-        </tr>
-
-    </table>
+    </div>
 
 </div>
